@@ -32,30 +32,34 @@ Se realizaron pruebas de ejecución con ambos algoritmos utilizando el mismo dat
 ### Outputs de los algoritmos
 #### Resultados del Algoritmo Genético
 
-`![Gráfica GA](imagenes/grafica_ga.png)`
+![Gráfica GA](imagenes/grafica_ga.png)
 
-El GA mostró una convergencia lineal. Al sumar todas las penalizaciones en una sola variable, el algoritmo corre directamente hacia la solución con el puntaje más alto, el cual fue 1.0
+El GA mostró una convergencia rápida y lineal. Al sumar todas las penalizaciones en una sola variable, el algoritmo corre directamente hacia la minimización del costo, alcanzando rápidamente un valor de **0 (cero conflictos)**.
 * **Ventaja:** Encuentra un horario válido muy rápido.
 * **Desventaja:** No nos permite ver si estamos desperdiciando salones grandes para grupos pequeños, ya que ese detalle se pierde en la suma total del fitness.
 
-`![Consola GA](imagenes/consola_ga.png)`
+![Consola GA](imagenes/consola_ga.png)
+
+**Horario Generado por GA:**
+![Horario GA](imagenes/resultado_ga.png)
 
 #### Resultados del NSGA-II
-El enfoque multi-objetivo generó un **Frente de Pareto**. En lugar de darnos un solo horario, el sistema nos entregó múltiples opciones no dominadas.
+El enfoque multi-objetivo generó un **Frente de Pareto** que evolucionó hasta encontrar la solución óptima.
 
-`![Gráfica NSGA-II](imagenes/grafica_nsgaii.png)`
+![Gráfica NSGA-II](imagenes/grafica_nsgaii.png)
 
 * **Eje X ($f_1$):** Minimización de Conflictos.
-* **Eje Y ($f_2$):** Optimización de Espacio.
+* **Eje Y ($f_2$):** Optimización de Espacio/Preferencias.
 
-Se observó el fenómeno de **"Trade-off" (Compromiso)**:
-* Las soluciones con **0 conflictos** a veces tenían un uso de espacio menos eficiente.
-* Al forzar una optimización de espacio perfecta ($f_2$), a veces surgían conflictos menores en $f_1$.
+Como se observa en la gráfica, el algoritmo logró converger hacia el **Punto Utópico (0,0)**. A diferencia del GA clásico, NSGA-II logró minimizar simultáneamente los conflictos a 0 (eje Y) y el coste de preferencias a 0 (eje X), encontrando una solución perfecta para este conjunto de datos.
 
-`![Consola NSGA-II](imagenes/consola_nsgaii.png)`
+![Consola NSGA-II](imagenes/consola_nsgaii.png)
+
+**Horario Generado por NSGA-II (Solución seleccionada):**
+![Horario NSGA-II](imagenes/resultado_nsgaii.png)
 
 
-### Tabla Comparativa en generador de horarios``
+### Tabla Comparativa en generador de horarios
 
 | Característica | Algoritmos Genéticos | NSGA-II |
 | :--- | :--- | :--- |
@@ -72,6 +76,6 @@ Depende del escenario que se quiere aplicar:
 
 ## Conclusiones
 
-1.  El **Algoritmo Genético** logró encontrar soluciones válidas en menos generaciones debido a la presión selectiva directa.
-2.  El **NSGA-II** tardó más, pero entregó más opciones, permitiendo visualizar cómo la optimización del espacio a veces presionaba la creación de conflictos.
-3.  Para el problema específico de horarios, donde la validez puede ser negociable, el Algoritmo Genético resulta suficiente, pero el NSGA-II ofrece una herramienta de análisis mejor para la gestión de recursos.
+1.  El **Algoritmo Genético** logró encontrar soluciones válidas en menos generaciones debido a la presión selectiva directa hacia la minimización del error.
+2.  El **NSGA-II** tardó más, pero demostró capacidad para gestionar múltiples objetivos simultáneamente, logrando converger a una solución ideal (0 conflictos, 0 costo) en este escenario.
+3.  Para el problema específico de horarios, donde la validez no es negociable, el Algoritmo Genético resulta suficiente, pero el NSGA-II ofrece una herramienta de análisis superior para la gestión de recursos.
